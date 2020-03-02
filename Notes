@@ -1,1 +1,27 @@
+Running container
 
+Dockerfile: 
+
+FROM centos:latest
+MAINTAINER Miguel Delgadillo <mdelgadi@redhat.com>
+ENV JAVA_HOME  /usr/lib/jvm/java
+RUN yum -y update && yum -y install unzip tar && \
+    yum install -y java-1.8.0-openjdk-devel && \
+    yum clean all
+    
+Donde:
+    
+&& - da la capacidad para poder ejecutar varios comandos en una línea. Esto es una buena práctica porque cada línea 
+  genera una capa al contenedor, entre más capas más pesado el contenedor.
+
+yum clean all limpia la cache de los repositorios que descarga.
+
+Crear imagen del contenedor
+
+podman build --rm=true --no-cache --force-rm --tag myjava:1.0 .
+
+Donde:
+
+--rm=true elimina el contenedor si la construcción falla.
+--no-cache no guarda memoria cache.
+--force-rm fuerza la eliminación del contenedor.
